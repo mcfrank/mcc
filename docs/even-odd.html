@@ -37,7 +37,7 @@
 
 <p>This example assumes that you already know the basics HTML, JavaScript, and CSS. If not, <a href="http://www.tizag.com/">this tutorial site</a> might be a useful starting point.</p>
 
-<p>This page contains source code on the right and explanations/commentary on the left. You can jump around the different files by using the &ldquo;Jump To &hellip;&rdquo; menu in the upper right corner. You will also want to refer to <a href="../even-odd.html">the actual experiment</a>.</p>
+<p>This page contains source code on the right and explanations/commentary on the left. You can jump around the different files by using the &ldquo;Jump To &hellip;&rdquo; menu in the upper right corner. You will also want to refefer to <a href="../even-odd.html">the actual experiment</a>.</p>
 
 <p>I&rsquo;m working on a library, <a href="http://github.com/longouyang/zenjs">zen</a>, that contains many helper functions that implement functionality discussed here. However, I&rsquo;ve refrained from using it in this example because (a) it&rsquo;s a work in progress, and (b) it&rsquo;s really worth  seeing the main ideas explicitly written out, as opposed to an unenlightening call to some black-box library function. I recommend possibly exploring zen after you understand this example.</p>
       </td>
@@ -75,11 +75,11 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-4">&#182;</a>
         </div>
-        <p>Include my library, <a href="http://github.com/longouyang/mmturkey">mmturkey</a>, which manages submitting data to Mechanical Turk.</p>
+        <p>Include my library, <a href="http://github.com/longouyang/mmturkey">mmturkey</a>, which manages submitting data to Mechanical Turk. This defines a global object, <code>turk</code>, and attaches five properties to it, <code>hitId</code>, <code>assignmentId</code>, <code>workerId</code>, <code>previewMode</code>, and <code>turkSubmitTo</code>. It also provides a single method, <code>submit(data)</code>, which you use to submit data to Turk. If no submission URL has been provided (because, e.g. you&rsquo;re testing your code outside of the Turk environment), <code>submit</code> displays what would have been submitted.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  
-  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://longouyang.github.com/mmturkey/mmturkey.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></pre></div>
+        <div class='highlight'><pre>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://longouyang.github.com/mmturkey/mmturkey.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  </pre></div>
       </td>
     </tr>
     <tr id='section-5'>

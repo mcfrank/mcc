@@ -139,13 +139,11 @@ let the subject know which keys correspond to even/odd.</p>
           <a class="pilcrow" href="#section-The_main_event">&#182;</a>
         </div>
         <h2>The main event</h2>
+
+<p>I implement the stream as an object with properties and methods. The benefit of encapsulating everything in an object is that it&rsquo;s conceptually coherent (i.e. the <code>data</code> variable belongs to this particular stream and not any other) and allows you to <strong>compose</strong> streams to build more complicated experiments. For instance, if you wanted an experiment with, say, a survey, a reaction time test, and a memory test presented in a number of different orders, you could easily do so by creating three separate streams and dynamically setting the <code>end()</code> function for each stream.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre><span class="kd">var</span> <span class="nx">experiment</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="nx">trials</span><span class="o">:</span> <span class="nx">myTrialOrder</span><span class="p">,</span>
-  <span class="nx">completed</span><span class="o">:</span> <span class="p">[],</span>
-  <span class="nx">keyBindings</span><span class="o">:</span> <span class="nx">myKeyBindings</span><span class="p">,</span>
-  <span class="nx">data</span><span class="o">:</span> <span class="p">[],</span></pre></div>
+        <div class='highlight'><pre><span class="kd">var</span> <span class="nx">experiment</span> <span class="o">=</span> <span class="p">{</span></pre></div>
       </td>
     </tr>
     <tr id='section-9'>
@@ -153,11 +151,10 @@ let the subject know which keys correspond to even/odd.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-9">&#182;</a>
         </div>
-        <p>The function that gets called when the stream is finished</p>
+        <p>Parameters for this stream.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>  <span class="nx">end</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">showSlide</span><span class="p">(</span><span class="s2">&quot;finished&quot;</span><span class="p">);</span></pre></div>
+        <div class='highlight'><pre>  <span class="nx">trials</span><span class="o">:</span> <span class="nx">myTrialOrder</span><span class="p">,</span></pre></div>
       </td>
     </tr>
     <tr id='section-10'>
@@ -165,13 +162,11 @@ let the subject know which keys correspond to even/odd.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-10">&#182;</a>
         </div>
-        <p>wait 1.5 seconds and then submit to Mechanical Turk</p>
+        <p>Already completed parameters.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>    
-    <span class="nx">turk</span><span class="p">.</span><span class="nx">submit</span><span class="p">(</span><span class="nx">experiment</span><span class="p">);</span>
-  <span class="p">},</span>
-  <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span></pre></div>
+        <div class='highlight'><pre>  <span class="nx">completed</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">keyBindings</span><span class="o">:</span> <span class="nx">myKeyBindings</span><span class="p">,</span></pre></div>
       </td>
     </tr>
     <tr id='section-11'>
@@ -179,16 +174,62 @@ let the subject know which keys correspond to even/odd.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-11">&#182;</a>
         </div>
-        <p>Get the current trial &ndash; <code>shift()</code> removes the first element of the array and returns it.</p>
+        <p>An array to store the data that we&rsquo;re collecting.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">experiment</span><span class="p">.</span><span class="nx">trials</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span></pre></div>
+        <div class='highlight'><pre>  <span class="nx">data</span><span class="o">:</span> <span class="p">[],</span></pre></div>
       </td>
     </tr>
     <tr id='section-12'>
       <td class=docs>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-12">&#182;</a>
+        </div>
+        <p>The function that gets called when the stream is finished.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">end</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">showSlide</span><span class="p">(</span><span class="s2">&quot;finished&quot;</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-13">&#182;</a>
+        </div>
+        <p>Wait 1.5 seconds and then submit to Mechanical Turk.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="nx">turk</span><span class="p">.</span><span class="nx">submit</span><span class="p">(</span><span class="nx">experiment</span><span class="p">);</span>
+  <span class="p">},</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-14'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-14">&#182;</a>
+        </div>
+        <p>The work horse of the stream &ndash; what to do on every trial.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-15'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-15">&#182;</a>
+        </div>
+        <p>Get the current trial &ndash; <code>shift()</code> removes the first element of the array and returns it.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">experiment</span><span class="p">.</span><span class="nx">trials</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-16'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-16">&#182;</a>
         </div>
         <p>If the current trial is undefined, it means the trials array was empty, which means that we&rsquo;re done, so call the end function.</p>
       </td>
@@ -201,10 +242,10 @@ let the subject know which keys correspond to even/odd.</p>
     </pre></div>
       </td>
     </tr>
-    <tr id='section-13'>
+    <tr id='section-17'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-13">&#182;</a>
+          <a class="pilcrow" href="#section-17">&#182;</a>
         </div>
         <p>Compute the correct answer. I&rsquo;m using the so-called <strong>ternary operator</strong>, which is a shorthand for <code>if (&hellip;) { &hellip; } else { &hellip; }</code></p>
       </td>
@@ -214,10 +255,10 @@ let the subject know which keys correspond to even/odd.</p>
     <span class="nx">showSlide</span><span class="p">(</span><span class="s2">&quot;stage&quot;</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-14'>
+    <tr id='section-18'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-14">&#182;</a>
+          <a class="pilcrow" href="#section-18">&#182;</a>
         </div>
         <p>Display the number stimulus.</p>
       </td>
@@ -226,10 +267,10 @@ let the subject know which keys correspond to even/odd.</p>
     </pre></div>
       </td>
     </tr>
-    <tr id='section-15'>
+    <tr id='section-19'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-15">&#182;</a>
+          <a class="pilcrow" href="#section-19">&#182;</a>
         </div>
         <p>Get the current time so we can compute reaction time later.</p>
       </td>
@@ -238,30 +279,49 @@ let the subject know which keys correspond to even/odd.</p>
     </pre></div>
       </td>
     </tr>
-    <tr id='section-16'>
+    <tr id='section-20'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-16">&#182;</a>
+          <a class="pilcrow" href="#section-20">&#182;</a>
         </div>
-        <p>Use something like <a href="http://github.com/madrobby/keymaster">Keymaster</a>, or <a href="http://github.com/longouyang/zenjs">zen</a> (my library, and a work in progress) but for present purposes we&rsquo;ll use jQuery and type out the keyCodes.</p>
+        <p>Listen for the keydown event. Here I&rsquo;m using the jQuery keydown handler, but this has the slight disadvantage of only giving numeric key values which you then have to test for. A library like <a href="http://github.com/madrobby/keymaster">Keymaster</a>, or <a href="http://github.com/longouyang/zenjs">zen</a> (my library, and a work in progress) lets you write simpler code like <code>key(&lsquo;a&rsquo;, function(){ alert(&lsquo;you pressed a!&rsquo;) })</code>, but I&rsquo;ve omitted it here.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">keydown</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">keyCode</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">which</span><span class="p">;</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">81</span> <span class="o">||</span> <span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">80</span> <span class="p">)</span> <span class="p">{</span></pre></div>
+      <span class="kd">var</span> <span class="nx">keyCode</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">which</span><span class="p">;</span></pre></div>
       </td>
     </tr>
-    <tr id='section-17'>
+    <tr id='section-21'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-17">&#182;</a>
+          <a class="pilcrow" href="#section-21">&#182;</a>
         </div>
-        <p>TODO: This is important</p>
+        <p>If a valid key is pressed (code 80 is p, 81 is q)</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre>        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">unbind</span><span class="p">(</span><span class="s2">&quot;keydown&quot;</span><span class="p">);</span>
-        
-        <span class="kd">var</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">();</span>
+        <div class='highlight'><pre>      <span class="k">if</span> <span class="p">(</span><span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">81</span> <span class="o">||</span> <span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">80</span> <span class="p">)</span> <span class="p">{</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-22'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-22">&#182;</a>
+        </div>
+        <p>&hellip; we immediately remove the keydown handler because we don&rsquo;t want this function to run multiple times (e.g. if they accidentally press the key twice),.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">unbind</span><span class="p">(</span><span class="s2">&quot;keydown&quot;</span><span class="p">);</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-23'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-23">&#182;</a>
+        </div>
+        <p>Record the end time, which key was pressed, and what that means (even or odd).</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="kd">var</span> <span class="nx">endTime</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">();</span>
             <span class="nx">key</span> <span class="o">=</span> <span class="p">(</span><span class="nx">keyCode</span> <span class="o">==</span> <span class="mi">80</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;p&quot;</span> <span class="o">:</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span>
             <span class="nx">userParity</span> <span class="o">=</span> <span class="nx">experiment</span><span class="p">.</span><span class="nx">keyBindings</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
             
@@ -274,23 +334,23 @@ let the subject know which keys correspond to even/odd.</p>
         <span class="nx">experiment</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-18'>
+    <tr id='section-24'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-18">&#182;</a>
+          <a class="pilcrow" href="#section-24">&#182;</a>
         </div>
-        <p>Temporarily clear the number</p>
+        <p>Temporarily clear the number.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#number&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span></pre></div>
       </td>
     </tr>
-    <tr id='section-19'>
+    <tr id='section-25'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-19">&#182;</a>
+          <a class="pilcrow" href="#section-25">&#182;</a>
         </div>
-        <p>Wait 500 milliseconds before starting the next trial</p>
+        <p>Wait 500 milliseconds before starting the next trial.</p>
 
       </td>
       <td class=code>
