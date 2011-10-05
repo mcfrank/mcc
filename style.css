@@ -18,7 +18,8 @@ body {
 	display: none;
 	position: absolute;
 	margin: 0;
-	padding: 2%;
+	margin-left: 0.5%;
+	padding: 1% 2% 1% 2%;
 }
 
 input, select, button {font-family: Georgia, serif; font-size: 14px;}
