@@ -48,17 +48,23 @@ $("#even-key").html(pOdd ? "Q" : "P");
 
 
 // ## The main event
+// I implement the stream as an object with properties and methods. The benefit of encapsulating everything in an object is that it's conceptually coherent (i.e. the <code>data</code> variable belongs to this particular stream and not any other) and allows you to **compose** streams to build more complicated experiments. For instance, if you wanted an experiment with, say, a survey, a reaction time test, and a memory test presented in a number of different orders, you could easily do so by creating three separate streams and dynamically setting the <code>end()</code> function for each stream.
+
 var experiment = {
+  // Parameters for this stream.
   trials: myTrialOrder,
+  // Already completed parameters.
   completed: [],
   keyBindings: myKeyBindings,
+  // An array to store the data that we're collecting.
   data: [],
-  // The function that gets called when the stream is finished
+  // The function that gets called when the stream is finished.
   end: function() {
     showSlide("finished");
-    // wait 1.5 seconds and then submit to Mechanical Turk
+    // Wait 1.5 seconds and then submit to Mechanical Turk.
     turk.submit(experiment);
   },
+  // The work horse of the stream - what to do on every trial.
   next: function() {
     // Get the current trial - <code>shift()</code> removes the first element of the array and returns it.
     var n = experiment.trials.shift();
@@ -79,15 +85,16 @@ var experiment = {
     // Get the current time so we can compute reaction time later.
     var startTime = (new Date()).getTime();
     
-    // Use something like [Keymaster][keymaster], or [zen][zen] (my library, and a work in progress) but for present purposes we'll use jQuery and type out the keyCodes.
+    // Listen for the keydown event. Here I'm using the jQuery keydown handler, but this has the slight disadvantage of only giving numeric key values which you then have to test for. A library like [Keymaster][keymaster], or [zen][zen] (my library, and a work in progress) lets you write simpler code like <code>key('a', function(){ alert('you pressed a!') })</code>, but I've omitted it here.
     // [keymaster]: http://github.com/madrobby/keymaster
     // [zen]: http://github.com/longouyang/zenjs
     $(document).keydown(function(event) {
       var keyCode = event.which;
+      // If a valid key is pressed (code 80 is p, 81 is q)
       if (keyCode == 81 || keyCode == 80 ) {
-        // TODO: This is important
+        // ... we immediately remove the keydown handler because we don't want this function to run multiple times (e.g. if they accidentally press the key twice),.
         $(document).unbind("keydown");
-        
+        // Record the end time, which key was pressed, and what that means (even or odd).
         var endTime = (new Date()).getTime();
             key = (keyCode == 80) ? "p" : "q",
             userParity = experiment.keyBindings[key];
@@ -99,9 +106,9 @@ var experiment = {
         };
         
         experiment.data.push(data);
-        // Temporarily clear the number
+        // Temporarily clear the number.
         $("#number").html("");
-        // Wait 500 milliseconds before starting the next trial
+        // Wait 500 milliseconds before starting the next trial.
         setTimeout(experiment.next, 500);
       }
     });
