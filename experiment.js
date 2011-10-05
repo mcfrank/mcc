@@ -55,14 +55,16 @@ var experiment = {
   trials: myTrialOrder,
   // Already completed parameters.
   completed: [],
+  // Experiment-specific parameters - which keys map to odd/even
   keyBindings: myKeyBindings,
   // An array to store the data that we're collecting.
   data: [],
   // The function that gets called when the stream is finished.
   end: function() {
+    // Show the finish slide.
     showSlide("finished");
-    // Wait 1.5 seconds and then submit to Mechanical Turk.
-    turk.submit(experiment);
+    // Wait 1.5 seconds and then submit the whole experiment object to Mechanical Turk (mmturkey filters out the functions so we know we're just submitting properties [i.e. data])
+    setTimeout(function() { turk.submit(experiment) }, 1500);
   },
   // The work horse of the stream - what to do on every trial.
   next: function() {
