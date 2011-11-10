@@ -1,10 +1,10 @@
 <!--
 ## Introduction
-This example experiment is a categorization task. On every trial, the subject sees a number and has to press a key depending on whether the number is even or odd. There are two between-subjects independent variables: which keys get pressed (either P for even and Q for odd or vice versa) and the trial order (either A or B). There are two dependent variables: accuracy and reaction time.
+This example experiment is a categorization task. On every trial, the subject sees a number and has to press a key depending on whether the number is even or odd. There are two between-subjects independent variables: which keys get pressed (either P for even and Q for odd or vice versa) and the trial order (subjects see one of two fixed orders). There are two dependent variables: accuracy and reaction time.
 
-This example assumes that you already know the basics HTML, JavaScript, and CSS. If not, [this tutorial site][tizag] might be a useful starting point.
+This example assumes that you already know the basics of HTML, JavaScript, and CSS. If not, [this tutorial site][tizag] might be a useful starting point.
 
-This page contains source code on the right and explanations/commentary on the left. You can jump around the different files by using the "Jump To ..." menu in the upper right corner. You will also want to refefer to <a href="../even-odd.html">the actual experiment</a>.
+This page contains source code on the right and explanations/commentary on the left. You can jump around the different files by using the "Jump To ..." menu in the upper right corner. You will also want to refer to <a href="../even-odd.html">the actual experiment</a>.
 
 I'm working on a library, [zen], that contains many helper functions that implement functionality discussed here. However, I've refrained from using it in this example because (a) it's a work in progress, and (b) it's really worth  seeing the main ideas explicitly written out, as opposed to an unenlightening call to some black-box library function. I recommend possibly exploring zen after you understand this example.
 
@@ -22,7 +22,7 @@ I'm working on a library, [zen], that contains many helper functions that implem
 	<!-- [jq]: http://jquery.com/ -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 	
-	<!-- Include my library, [mmturkey][mmturkey], which manages submitting data to Mechanical Turk. This defines a global object, <code>turk</code>, and attaches five properties to it, <code>hitId</code>, <code>assignmentId</code>, <code>workerId</code>, <code>previewMode</code>, and <code>turkSubmitTo</code>. It also provides a single method, <code>submit(data)</code>, which you use to submit data to Turk. If no submission URL has been provided (because, e.g. you're testing your code outside of the Turk environment), <code>submit</code> displays what would have been submitted. -->
+	<!-- Include my library, [mmturkey][mmturkey], which manages submitting data to Mechanical Turk. This defines a global object, <code>turk</code>, and attaches five properties to it, <code>hitId</code>, <code>assignmentId</code>, <code>workerId</code>, <code>previewMode</code>, and <code>turkSubmitTo</code>. It also provides a single method, <code>submit(data)</code>, which you use to submit data to Turk. If no submission URL has been provided (because, e.g. you're testing your code outside of the Turk environment), <code>submit</code> displays what would have been submitted (without, obviously, any Turk-specific variables like <code>workerId</code> and <code>assignmentId</code>).  -->
 	<!-- [mmturkey]: http://github.com/longouyang/mmturkey -->
 	<script src="http://longouyang.github.com/mmturkey/mmturkey.js"></script>
 	
@@ -38,9 +38,10 @@ I'm working on a library, [zen], that contains many helper functions that implem
 		<p id='logo-text'>Stanford Computation and Cognition Lab</p>
 	<p class="block-text">In this experiment, you will see numbers displayed on the screen.
 		<!-- Tell the subject which keys to press. We need to set these values dynamically; I use <code>{{}}</code> to indicate template locations in HTML that will be modified by JavaScript. -->
-		Press <span id="odd-key">{{}}</span> if the number is even and
-		<span id="even-key">{{}}</span> if the number is odd.		
+		Press <span id="even-key">{{}}</span> if the number is even and
+		<span id="odd-key">{{}}</span> if the number is odd.		
 	</p>
+	<!-- Button to start the experiment. <code>this.blur()</code> removes the focus from the button, if the user pressed the button by using the keyboard, rather than the mouse. -->
 	<button type="button" onclick="this.blur(); experiment.next()">Start</button>
 	<!-- Legal blurb that we're required to show. -->
 	<p class="block-text" id="legal">Legal information: By answering the
