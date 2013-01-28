@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# 2013/01/13 rocco install notes (OS X 10.7):
+# sudo gem install rocco
+# (but then i get an error when i try running rocco,
+# something about `process_markdown': uninitialized constant Rocco
+# )
+# apply quickfix to rocco binary, as noted by https://github.com/rtomayko/rocco/issues/69#issuecomment-4488791
+
 rocco -o docs experiment.js even-odd.html style.css
 
 osascript <<'APPLESCRIPT'

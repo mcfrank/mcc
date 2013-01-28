@@ -6,7 +6,7 @@ This example assumes that you already know the basics of HTML, JavaScript, and C
 
 This page contains source code on the right and explanations/commentary on the left. You can jump around the different files by using the "Jump To ..." menu in the upper right corner. You will also want to refer to <a href="../even-odd.html">the actual experiment</a>.
 
-I'm working on a library, [zen], that contains many helper functions that implement functionality discussed here. However, I've refrained from using it in this example because (a) it's a work in progress, and (b) it's really worth  seeing the main ideas explicitly written out, as opposed to an unenlightening call to some black-box library function. I recommend possibly exploring zen after you understand this example.
+I'm working on a library, [zen], that contains many helper functions that implement functionality discussed here. However, I've refrained from using it in this example because (a) it's a work in progress, and (b) it's really worth  seeing the main ideas explicitly written out. I recommend possibly exploring zen after you understand this example.
 
 [zen]: http://github.com/longouyang/zenjs
 [tizag]: http://www.tizag.com/
@@ -20,7 +20,7 @@ I'm working on a library, [zen], that contains many helper functions that implem
 	<title>Even/odd experiment</title>
 	<!-- Include the [jQuery library][jq], which makes manipulating HTML elements a breeze. We're loading it from Google's content delivery network (CDN), which is fast and reliable. -->
 	<!-- [jq]: http://jquery.com/ -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	
 	<!-- Include my library, [mmturkey][mmturkey], which manages submitting data to Mechanical Turk. This defines a global object, <code>turk</code>, and attaches five properties to it, <code>hitId</code>, <code>assignmentId</code>, <code>workerId</code>, <code>previewMode</code>, and <code>turkSubmitTo</code>. It also provides a single method, <code>submit(data)</code>, which you use to submit data to Turk. If no submission URL has been provided (because, e.g. you're testing your code outside of the Turk environment), <code>submit</code> displays what would have been submitted (without, obviously, any Turk-specific variables like <code>workerId</code> and <code>assignmentId</code>).  -->
 	<!-- [mmturkey]: http://github.com/longouyang/mmturkey -->
@@ -65,7 +65,7 @@ I'm working on a library, [zen], that contains many helper functions that implem
 	You're finished - thanks for participating! Submitting to Mechanical Turk...
 </div>
 
-<!-- Include the <a href="experiment.html">JavaScript file for the experiment</a>. As written, that script immediately executes commands, so we include it here at the end of the HTML file to ensure that resources referenced by the script actually exist. For instance, one of the immediately executed commands is <code>showSlide("instructions")</code>. If we loaded experiment.js, say, in the <code>head</code> section, <code>showSlide("instructions")</code> would fail because the <code>instructions</code> slide doesn't exist yet. It is possible to load the script in <code>head</code> but you have to ensure that any immediately executed commands, if they rely on potentially uninitialized HTMl elements, are _delayed_ until the page is ready, using either [window.onload][onload] or jQuery's more robust [$(document).ready()][domReady]  -->
+<!-- Include the <a href="experiment.html">JavaScript file for the experiment</a>. As written, that script immediately executes commands, so we include it here at the end of the HTML file to ensure that resources referenced by the script actually exist. For instance, one of the immediately executed commands is <code>showSlide("instructions")</code>. If we loaded experiment.js, say, in the <code>head</code> section, <code>showSlide("instructions")</code> would fail because the <code>instructions</code> slide doesn't exist yet. It is possible to load the script in <code>head</code> but you have to ensure that any immediately executed commands, if they rely on potentially uninitialized HTML elements, are _delayed_ until the page is ready, using either [window.onload][onload] or jQuery's more robust [$(document).ready()][domReady]  -->
 <!-- [onload]: https://developer.mozilla.org/en/DOM/window.onload -->
 <!-- [domReady]: http://api.jquery.com/ready/ -->
 <script src="experiment.js"></script>
