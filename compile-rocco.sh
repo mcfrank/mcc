@@ -8,6 +8,10 @@
 # apply quickfix to rocco binary, as noted by https://github.com/rtomayko/rocco/issues/69#issuecomment-4488791
 
 rocco -o docs experiment.js even-odd.html style.css
+# stopgap fix for new docco CSS location
+cd docs
+sed -e "s/http:\/\/jashkenas\.github\.com\/docco\/resources\///" -i .bak *
+rm *.bak
 
 osascript <<'APPLESCRIPT'
 tell application "Google Chrome"
