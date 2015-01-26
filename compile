@@ -9,6 +9,6 @@ cp experiment.js tmp/experiment.js
 sed -e "s/-->//" even-odd.html > tmp/even-odd.html
 sed -e "s/*\///" style.css > tmp/style.css
 
-docco --languages languages.json --output docs tmp/experiment.js tmp/even-odd.html tmp/style.css
+docco --languages languages.json --template _layout/docco.jst --css _layout/docco.css --output docs tmp/experiment.js tmp/even-odd.html tmp/style.css
 
 rm -rf tmp
