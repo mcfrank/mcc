@@ -20,20 +20,14 @@ function showSlide(id) {
 	$("#"+id).show();
 }
 
-// Get random integers.
-// When called with no arguments, it returns either 0 or 1. When called with one argument, *a*, it returns a number in {*0, 1, ..., a-1*}. When called with two arguments, *a* and *b*, returns a random value in {*a*, *a + 1*, ... , *b*}.
-function random(a,b) {
-	if (typeof b == "undefined") {
-		a = a || 2;
-		return Math.floor(Math.random()*a);
-	} else {
-		return Math.floor(Math.random()*(b-a+1)) + a;
-	}
+// Get a random integer less than n.
+function randomInteger(n) {
+	return Math.floor(Math.random()*n);
 }
 
-// Add a random selection function to all arrays (e.g., <code>[4,8,7].random()</code> could return 4, 8, or 7). This is useful for condition randomization.
-Array.prototype.random = function() {
-  return this[random(this.length)];
+// Get a random element from an array (e.g., <code>random_element([4,8,7])</code> could return 4, 8, or 7). This is useful for condition randomization.
+function randomElement(array) {
+  return array[randomInteger(array.length)];
 }
 
 // ## Configuration settings
@@ -43,8 +37,8 @@ var allKeyBindings = [
     allTrialOrders = [
       [1,3,2,5,4,9,8,7,6],
       [8,4,3,7,5,6,2,1,9] ],
-    myKeyBindings = allKeyBindings.random(),
-    myTrialOrder = allTrialOrders.random(),
+    myKeyBindings = randomElement(allKeyBindings),
+    myTrialOrder = randomElement(allTrialOrders),
     pOdd = (myKeyBindings["p"] == "odd");
     
 // Fill in the instructions template using jQuery's <code>html()</code> method. In particular,
@@ -55,7 +49,6 @@ $("#even-key").html(pOdd ? "Q" : "P");
 
 // Show the instructions slide -- this is what we want subjects to see first.
 showSlide("instructions");
-
 
 // ## The main event
 // I implement the sequence as an object with properties and methods. The benefit of encapsulating everything in an object is that it's conceptually coherent (i.e. the <code>data</code> variable belongs to this particular sequence and not any other) and allows you to **compose** sequences to build more complicated experiments. For instance, if you wanted an experiment with, say, a survey, a reaction time test, and a memory test presented in a number of different orders, you could easily do so by creating three separate sequences and dynamically setting the <code>end()</code> function for each sequence so that it points to the next. **More practically, you should stick everything in an object and submit that whole object so that you don't lose data (e.g. randomization parameters, what condition the subject is in, etc). Don't worry about the fact that some of the object properties are functions -- mmturkey (the Turk submission library) will strip these out.**
@@ -92,7 +85,6 @@ var experiment = {
     
     // Get the current time so we can compute reaction time later.
     var startTime = (new Date()).getTime();
-
     
     // Set up a function to react to keyboard input. Functions that are used to react to user input are called *event handlers*. In addition to writing these event handlers, you have to *bind* them to particular events (i.e., tell the browser that you actually want the handler to run when the user performs an action). Note that the handler always takes an <code>event</code> argument, which is an object that provides data about the user input (e.g., where they clicked, which button they pressed).
     var keyPressHandler = function(event) {
