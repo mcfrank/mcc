@@ -151,18 +151,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Get random integers.
-When called with no arguments, it returns either 0 or 1. When called with one argument, <em>a</em>, it returns a number in {<em>0, 1, …, a-1</em>}. When called with two arguments, <em>a</em> and <em>b</em>, returns a random value in {<em>a</em>, <em>a + 1</em>, … , <em>b</em>}.</p>
+              <p>Get a random integer less than n.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">random</span><span class="hljs-params">(a,b)</span> </span>{
-	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> b == <span class="hljs-string">"undefined"</span>) {
-		a = a || <span class="hljs-number">2</span>;
-		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random()*a);
-	} <span class="hljs-keyword">else</span> {
-		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random()*(b-a+<span class="hljs-number">1</span>)) + a;
-	}
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">randomInteger</span><span class="hljs-params">(n)</span> </span>{
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random()*n);
 }</pre></div></div>
             
         </li>
@@ -174,12 +168,12 @@ When called with no arguments, it returns either 0 or 1. When called with one ar
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>Add a random selection function to all arrays (e.g., <code>[4,8,7].random()</code> could return 4, 8, or 7). This is useful for condition randomization.</p>
+              <p>Get a random element from an array (e.g., <code>random_element([4,8,7])</code> could return 4, 8, or 7). This is useful for condition randomization.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">Array</span>.prototype.random = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>[random(<span class="hljs-keyword">this</span>.length)];
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">randomElement</span><span class="hljs-params">(array)</span> </span>{
+  <span class="hljs-keyword">return</span> array[randomInteger(array.length)];
 }</pre></div></div>
             
         </li>
@@ -201,8 +195,8 @@ When called with no arguments, it returns either 0 or 1. When called with one ar
     allTrialOrders = [
       [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">9</span>,<span class="hljs-number">8</span>,<span class="hljs-number">7</span>,<span class="hljs-number">6</span>],
       [<span class="hljs-number">8</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">7</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">9</span>] ],
-    myKeyBindings = allKeyBindings.random(),
-    myTrialOrder = allTrialOrders.random(),
+    myKeyBindings = randomElement(allKeyBindings),
+    myTrialOrder = randomElement(allTrialOrders),
     pOdd = (myKeyBindings[<span class="hljs-string">"p"</span>] == <span class="hljs-string">"odd"</span>);</pre></div></div>
             
         </li>
