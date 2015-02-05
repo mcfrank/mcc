@@ -44,8 +44,8 @@ var allKeyBindings = [
 // Fill in the instructions template using jQuery's <code>html()</code> method. In particular,
 // let the subject know which keys correspond to even/odd. Here, I'm using the so-called **ternary operator**, which is a shorthand for <code>if (...) { ... } else { ... }</code>
 
-$("#odd-key").html(pOdd ? "P" : "Q");
-$("#even-key").html(pOdd ? "Q" : "P");
+$("#odd-key").text(pOdd ? "P" : "Q");
+$("#even-key").text(pOdd ? "Q" : "P");
 
 // Show the instructions slide -- this is what we want subjects to see first.
 showSlide("instructions");
@@ -81,7 +81,7 @@ var experiment = {
     
     showSlide("stage");
     // Display the number stimulus.
-    $("#number").html(n);
+    $("#number").text(n);
     
     // Get the current time so we can compute reaction time later.
     var startTime = (new Date()).getTime();
@@ -111,7 +111,7 @@ var experiment = {
         
         experiment.data.push(data);
         // Temporarily clear the number.
-        $("#number").html("");
+        $("#number").text("");
         // Wait 500 milliseconds before starting the next trial.
         setTimeout(experiment.next, 500);
       }
