@@ -214,8 +214,8 @@ let the subject know which keys correspond to even/odd. Here, I’m using the so
             </div>
             
             <div class="content"><div class='highlight'><pre>
-$(<span class="hljs-string">"#odd-key"</span>).html(pOdd ? <span class="hljs-string">"P"</span> : <span class="hljs-string">"Q"</span>);
-$(<span class="hljs-string">"#even-key"</span>).html(pOdd ? <span class="hljs-string">"Q"</span> : <span class="hljs-string">"P"</span>);</pre></div></div>
+$(<span class="hljs-string">"#odd-key"</span>).text(pOdd ? <span class="hljs-string">"P"</span> : <span class="hljs-string">"Q"</span>);
+$(<span class="hljs-string">"#even-key"</span>).text(pOdd ? <span class="hljs-string">"Q"</span> : <span class="hljs-string">"P"</span>);</pre></div></div>
             
         </li>
         
@@ -364,11 +364,14 @@ $(<span class="hljs-string">"#even-key"</span>).html(pOdd ? <span class="hljs-st
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
-              <p>Get the current trial - <code>shift()</code> removes the first element of the array and returns it.</p>
+              <p>If the number of remaining trials is 0, we’re done, so call the end function.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> n = experiment.trials.shift();</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (experiment.trials.length == <span class="hljs-number">0</span>) {
+      experiment.end();
+      <span class="hljs-keyword">return</span>;
+    }</pre></div></div>
             
         </li>
         
@@ -379,13 +382,11 @@ $(<span class="hljs-string">"#even-key"</span>).html(pOdd ? <span class="hljs-st
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <p>If the current trial is undefined, it means the trials array was empty, which means that we’re done, so call the end function.</p>
+              <p>Get the current trial - <code>shift()</code> removes the first element of the array and returns it.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> n == <span class="hljs-string">"undefined"</span>) {
-      <span class="hljs-keyword">return</span> experiment.end();
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> n = experiment.trials.shift();</pre></div></div>
             
         </li>
         
@@ -417,7 +418,7 @@ $(<span class="hljs-string">"#even-key"</span>).html(pOdd ? <span class="hljs-st
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    $(<span class="hljs-string">"#number"</span>).html(n);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    $(<span class="hljs-string">"#number"</span>).text(n);</pre></div></div>
             
         </li>
         
@@ -458,7 +459,7 @@ $(<span class="hljs-string">"#even-key"</span>).html(pOdd ? <span class="hljs-st
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
-              <p>A slight disadvantage of this code is that you have to test for numeric key values; instead of writing code that expresses “<em>do X if ‘Q’ was pressed</em>“, you have to do the more complicated “<em>do X if the key with code 80 was pressed</em>“. A library like <a href="http://github.com/madrobby/keymaster">Keymaster</a>, or <a href="http://github.com/longouyang/zenjs">zen</a> (my library, and a work in progress) lets you write simpler code like <code>key(‘a’, function(){ alert(‘you pressed a!’) })</code>, but I’ve omitted it here. Here, we get the numeric key code from the event object</p>
+              <p>A slight disadvantage of this code is that you have to test for numeric key values; instead of writing code that expresses “<em>do X if ‘Q’ was pressed</em>“, you have to do the more complicated “<em>do X if the key with code 80 was pressed</em>“. A library like <a href="http://github.com/madrobby/keymaster">Keymaster</a> lets you write simpler code like <code>key(‘a’, function(){ alert(‘you pressed a!’) })</code>, but I’ve omitted it here. Here, we get the numeric key code from the event object</p>
 
             </div>
             
@@ -521,7 +522,7 @@ record the reaction time (current time minus start time), which key was pressed,
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        $(<span class="hljs-string">"#number"</span>).html(<span class="hljs-string">""</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $(<span class="hljs-string">"#number"</span>).text(<span class="hljs-string">""</span>);</pre></div></div>
             
         </li>
         
