@@ -69,12 +69,14 @@ var experiment = {
   },
   // The work horse of the sequence - what to do on every trial.
   next: function() {
+    // If the number of remaining trials is 0, we're done, so call the end function.
+    if (experiment.trials.length == 0) {
+      experiment.end();
+      return;
+    }
+    
     // Get the current trial - <code>shift()</code> removes the first element of the array and returns it.
     var n = experiment.trials.shift();
-    // If the current trial is undefined, it means the trials array was empty, which means that we're done, so call the end function.
-    if (typeof n == "undefined") {
-      return experiment.end();
-    }
     
     // Compute the correct answer.
     var realParity = (n % 2 == 0) ? "even" : "odd";
