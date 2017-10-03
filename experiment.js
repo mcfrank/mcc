@@ -2,7 +2,7 @@
 
 // ## High-level overview
 // Things happen in this order:
-// 
+//
 // 1. Compute randomization parameters (which keys to press for even/odd and trial order), fill in the template <code>{{}}</code> slots that indicate which keys to press for even/odd, and show the instructions slide.
 // 2. Set up the experiment sequence object.
 // 3. When the subject clicks the start button, it calls <code>experiment.next()</code>
@@ -40,7 +40,7 @@ var allKeyBindings = [
     myKeyBindings = randomElement(allKeyBindings),
     myTrialOrder = randomElement(allTrialOrders),
     pOdd = (myKeyBindings["p"] == "odd");
-    
+
 // Fill in the instructions template using jQuery's <code>html()</code> method. In particular,
 // let the subject know which keys correspond to even/odd. Here, I'm using the so-called **ternary operator**, which is a shorthand for <code>if (...) { ... } else { ... }</code>
 
@@ -74,29 +74,32 @@ var experiment = {
       experiment.end();
       return;
     }
-    
+
     // Get the current trial - <code>shift()</code> removes the first element of the array and returns it.
     var n = experiment.trials.shift();
-    
+
     // Compute the correct answer.
     var realParity = (n % 2 == 0) ? "even" : "odd";
-    
+
     showSlide("stage");
     // Display the number stimulus.
-    $("#number").text(n);
-    
+		$("#top_agent").show();
+		$("#number").text(n);
+
+
+
     // Get the current time so we can compute reaction time later.
     var startTime = (new Date()).getTime();
-    
+
     // Set up a function to react to keyboard input. Functions that are used to react to user input are called *event handlers*. In addition to writing these event handlers, you have to *bind* them to particular events (i.e., tell the browser that you actually want the handler to run when the user performs an action). Note that the handler always takes an <code>event</code> argument, which is an object that provides data about the user input (e.g., where they clicked, which button they pressed).
     var keyPressHandler = function(event) {
       // A slight disadvantage of this code is that you have to test for numeric key values; instead of writing code that expresses "*do X if 'Q' was pressed*", you have to do the more complicated "*do X if the key with code 80 was pressed*". A library like [Keymaster](http://github.com/madrobby/keymaster) lets you write simpler code like <code>key('a', function(){ alert('you pressed a!') })</code>, but I've omitted it here. Here, we get the numeric key code from the event object
       var keyCode = event.which;
-      
+
       if (keyCode != 81 && keyCode != 80) {
         // If a key that we don't care about is pressed, re-attach the handler (see the end of this script for more info)
         $(document).one("keydown", keyPressHandler);
-        
+
       } else {
         // If a valid key is pressed (code 80 is p, 81 is q),
         // record the reaction time (current time minus start time), which key was pressed, and what that means (even or odd).
@@ -108,17 +111,18 @@ var experiment = {
               accuracy: realParity == userParity ? 1 : 0,
               rt: endTime - startTime
             };
-        
+
         experiment.data.push(data);
         // Temporarily clear the number.
         $("#number").text("");
+				$("#top_agent").hide();
         // Wait 500 milliseconds before starting the next trial.
-        setTimeout(experiment.next, 500);
+        setTimeout(experiment.next, 1000);
       }
     };
-    
+
     // Here, we actually bind the handler. We're using jQuery's <code>one()</code> function, which ensures that the handler can only run once. This is very important, because generally you only want the handler to run only once per trial. If you don't bind with <code>one()</code>, the handler might run multiple times per trial, which can be disastrous. For instance, if the user accidentally presses P twice, you'll be recording an extra copy of the data for this trial and (even worse) you will be calling <code>experiment.next</code> twice, which will cause trials to be skipped! That said, there are certainly cases where you do want to run an event handler multiple times per trial. In this case, you want to use the <code>bind()</code> and <code>unbind()</code> functions, but you have to be extra careful about properly unbinding.
     $(document).one("keydown", keyPressHandler);
-    
+
   }
 }
